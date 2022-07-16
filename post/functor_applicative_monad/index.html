@@ -73,7 +73,7 @@
     <a class="a-block nav-head false" href="https://csyjoy.github.io/">
     
         <div class="nav-title">
-            My New Hugo Site
+            Joy&#39;s Blog
         </div>
         
     </a>
@@ -94,7 +94,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 
 &copy;
 	
-	2022 My New Hugo Site
+	2022 Joy&#39;s Blog
 	
 
     </div>
@@ -377,7 +377,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
             </i>
         </button>
         <a id="navTitle" class="navbar-brand" href="https://csyjoy.github.io/">
-            My New Hugo Site
+            Joy&#39;s Blog
         </a>
         
         <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
@@ -391,7 +391,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 <div class="single-column-header-container" id="pageHead"
      v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
     <a href="https://csyjoy.github.io/">
-        <div class="single-column-header-title">My New Hugo Site</div>
+        <div class="single-column-header-title">Joy&#39;s Blog</div>
         
 
     </a>
@@ -433,18 +433,20 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                 
                     <p>学haskell有一段时间了，通过haskell也看了一些category theory的东西，虽然从头脑中已经知道了haskell中概念的由来，但是却不知道为啥要这样设计，看过一些书对于为啥haskell需要引入这个概念也并不是特别清晰，所以一直感到云里雾里，趁现在比较空，就详细上网查阅了一些关于原因的知识，非常的碎，所以这里希望将他们整理起来，并加上了我自己的一些想法，当然，半吊子学了haskell和category theory的我也只是从自己出发，如果有错的话请指出。</p>
 <h3 id="容器的抽象">容器的抽象</h3>
-<p>在学haskell的过程中一直被灌输functor, applicative, monad是<code>容器</code>, 它们装了数据，但是为什么他们可以被看成<code>容器</code>?
-因为在haskell中<code>Hask</code>这个category中，functor都是endo-functor,所以可以被理解成是容器。
-为啥是endo-functor: 因为我们在使用一个functor构造新的type的时候，这个type还是在<code>Hask</code>中的</p>
+<p>在学haskell的过程中一直被灌输functor, applicative, monad是<code>容器</code>, 它们装了数据，但是为什么他们可以被看成<code>容器</code>?</p>
+<blockquote>
+<p>因为在haskell中<code>Hask</code>这个category中，functor都是endo-functor,所以可以被理解成是容器。</p>
+</blockquote>
+<p>为啥是endo-functor: 因为我们在使用一个functor构造新的type的时候，这个type还是在<code>Hask</code>中的</p>
 <h3 id="容器表示了一种计算的语义">容器表示了一种计算的语义</h3>
-<p>这个陈述在我看来解答了为什么haskell需要存在容器这种东西。通过容器这个东西，可以很好实现<code>指称语义</code>,一种不同于命令式语言的<code>操作语义</code>的语义。
-举个例子： <code>Maybe</code>这个容器就表示了一种结果可能不存在的计算的语义，<code>IO</code>表示了一种顺序上的计算语义</p>
+<p>这个陈述在我看来解答了为什么haskell需要存在容器这种东西。通过容器这个东西，可以很好实现<code>指称语义</code>,一种不同于命令式语言的<code>操作语义</code>的语义。</p>
+<p>举个例子： <code>Maybe</code>这个容器就表示了一种结果可能不存在的计算的语义，<code>IO</code>表示了一种顺序上的计算语义</p>
 <h3 id="为什么抽象出functor">为什么抽象出Functor</h3>
-<p>我们都知道functor需要fmap, 它本质上就规定了一种<strong>不改变外部的容器，只改变内部数据</strong>的操作(这里可以联想到<code>natural transformation</code>, 一种改变外部容器，不改变内部值的操作)。正式由于这样的高阶的函数抽象，让我们可以在不修改不适配functor的函数前提下，依然可以使用functor提供的额外语义。当然fmap对于容器的语义需要手写。
-一种有意思的思考就是将fmap想象成map扩展，但是这样比喻有点爸爸像儿子的感觉。</p>
+<p>我们都知道functor需要fmap, 它本质上就规定了一种<strong>不改变外部的容器，只改变内部数据</strong>的操作(这里可以联想到<code>natural transformation</code>, 一种改变外部容器，不改变内部值的操作)。正式由于这样的高阶的函数抽象，让我们可以在不修改不适配functor的函数前提下，依然可以使用functor提供的额外语义。当然fmap对于容器的语义需要手写。</p>
+<p>一种有意思的思考就是将fmap想象成map扩展，但是这样比喻有点爸爸像儿子的感觉。</p>
 <h3 id="为什么抽象出了applicative">为什么抽象出了applicative</h3>
-<p>之前看过一本讲haskell的书说<code>applicative</code>其实出现的时间要比<code>functor</code>和<code>monad</code>要晚，<code>applicative</code>可以实现的功能，<code>monad</code>都可以实现。它出现的原因在我看来可以有实现<strong>容器层面函数的currying</strong>的原因。对于原来没有容器的函数来说，currying是显然的（从category theory的层面上来说存在一个adjunction）。但是如果我们使用fmap将一个函数变成了容器层面的函数的话，currying就不会显然满足了, 因为对于<code>f (a -&gt; b -&gt; c) -&gt; f a</code>来说，从functor层面，除非进行暴力拆容器，不然是没有一种方法可以便捷操作的。所以我们引入了<code>applicative</code>来解决这个问题，将容器层面函数的currying进行了引入。 到这里，我们就可以想操作原来的函数一样操作容器层面的函数了，haskell中存在一种叫<em>自然升格</em>的写法，就是模仿了原来函数的curry化过程。
-一般的函数的currying的写法<code>(((f a) b) c)</code>
+<p>之前看过一本讲haskell的书说<code>applicative</code>其实出现的时间要比<code>functor</code>和<code>monad</code>要晚，<code>applicative</code>可以实现的功能，<code>monad</code>都可以实现。它出现的原因在我看来可以有实现<strong>容器层面函数的currying</strong>的原因。对于原来没有容器的函数来说，currying是显然的（从category theory的层面上来说存在一个adjunction）。但是如果我们使用fmap将一个函数变成了容器层面的函数的话，currying就不会显然满足了, 因为对于<code>f (a -&gt; b -&gt; c) -&gt; f a</code>来说，从functor层面，除非进行暴力拆容器，不然是没有一种方法可以便捷操作的。所以我们引入了<code>applicative</code>来解决这个问题，将容器层面函数的currying进行了引入。 到这里，我们就可以想操作原来的函数一样操作容器层面的函数了，haskell中存在一种叫<em>自然升格</em>的写法，就是模仿了原来函数的curry化过程。</p>
+<p>一般的函数的currying的写法<code>(((f a) b) c)</code>
 通过引入<code>applicative</code>，我们使用自然升格的方式也可以达到这种currying的效果，具体例子<code>f &lt;$&gt; F a &lt;*&gt; F b &lt;*&gt; F c</code></p>
 <h3 id="为什么抽象出了monad">为什么抽象出了monad</h3>
 <p>在<em>Real World Haskell</em>将<code>monad</code>描述成了一种实现副作用的手段，这是传统的<code>操作语义</code> 和 <code>指称语义</code>的区别，<code>操作语义</code>对于副作用的宽容程度要比<code>指称语义</code>高，其内部可能会包括副作用，但是<code>指称语义</code>希望将副作用包含在容器上，而不是函数中，通过这样的方法，可以很好将pure这种性质保留下去，为了将副作用包含了容器上，我们抽象出了<code>monad</code>这个容器，<code>monad</code>存在多种定义方法，但是我认为，使用<code>(&gt;&gt;=) :: m a -&gt; (a -&gt; m b) -&gt; m b</code>定义的monad从本质上体现了这种思想，当我们将<code>m a</code>给应用到<code>a -&gt; m b</code>这函数的过程中，我们就需要完成副作用的操作，而不是在<code>a -&gt; m b</code>这个函数内部实现副作用。</p>
@@ -466,8 +468,8 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
                 
                 
                 
-                <a class="older-posts" href="https://csyjoy.github.io/post/helloworld/">
-			Previous<br>HelloWorld
+                <a class="older-posts">
+			Previous<br>No older posts.
                 </a>
                 
             </nav>
@@ -497,7 +499,7 @@ Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopene
 
 &copy;
 	
-	2022 My New Hugo Site
+	2022 Joy&#39;s Blog
 	
 </div>
             </div>

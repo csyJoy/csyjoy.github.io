@@ -1,9 +1,9 @@
 <?xml-stylesheet href="/rss.xsl" type="text/xsl"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My New Hugo Site</title>
+    <title>Joy&#39;s Blog</title>
     <link>https://csyjoy.github.io/</link>
-    <description>Recent content on My New Hugo Site</description>
+    <description>Recent content on Joy&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 15 Jul 2022 22:22:34 +0800</lastBuildDate>
@@ -18,37 +18,26 @@
         <pubDate>Fri, 15 Jul 2022 22:22:34 +0800</pubDate>
         
         <guid>https://csyjoy.github.io/post/functor_applicative_monad/</guid>
-        <description>My New Hugo Site https://csyjoy.github.io/post/functor_applicative_monad/ -&lt;p&gt;学haskell有一段时间了，通过haskell也看了一些category theory的东西，虽然从头脑中已经知道了haskell中概念的由来，但是却不知道为啥要这样设计，看过一些书对于为啥haskell需要引入这个概念也并不是特别清晰，所以一直感到云里雾里，趁现在比较空，就详细上网查阅了一些关于原因的知识，非常的碎，所以这里希望将他们整理起来，并加上了我自己的一些想法，当然，半吊子学了haskell和category theory的我也只是从自己出发，如果有错的话请指出。&lt;/p&gt;
+        <description>Joy&#39;s Blog https://csyjoy.github.io/post/functor_applicative_monad/ -&lt;p&gt;学haskell有一段时间了，通过haskell也看了一些category theory的东西，虽然从头脑中已经知道了haskell中概念的由来，但是却不知道为啥要这样设计，看过一些书对于为啥haskell需要引入这个概念也并不是特别清晰，所以一直感到云里雾里，趁现在比较空，就详细上网查阅了一些关于原因的知识，非常的碎，所以这里希望将他们整理起来，并加上了我自己的一些想法，当然，半吊子学了haskell和category theory的我也只是从自己出发，如果有错的话请指出。&lt;/p&gt;
 &lt;h3 id=&#34;容器的抽象&#34;&gt;容器的抽象&lt;/h3&gt;
-&lt;p&gt;在学haskell的过程中一直被灌输functor, applicative, monad是&lt;code&gt;容器&lt;/code&gt;, 它们装了数据，但是为什么他们可以被看成&lt;code&gt;容器&lt;/code&gt;?
-因为在haskell中&lt;code&gt;Hask&lt;/code&gt;这个category中，functor都是endo-functor,所以可以被理解成是容器。
-为啥是endo-functor: 因为我们在使用一个functor构造新的type的时候，这个type还是在&lt;code&gt;Hask&lt;/code&gt;中的&lt;/p&gt;
+&lt;p&gt;在学haskell的过程中一直被灌输functor, applicative, monad是&lt;code&gt;容器&lt;/code&gt;, 它们装了数据，但是为什么他们可以被看成&lt;code&gt;容器&lt;/code&gt;?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;因为在haskell中&lt;code&gt;Hask&lt;/code&gt;这个category中，functor都是endo-functor,所以可以被理解成是容器。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;为啥是endo-functor: 因为我们在使用一个functor构造新的type的时候，这个type还是在&lt;code&gt;Hask&lt;/code&gt;中的&lt;/p&gt;
 &lt;h3 id=&#34;容器表示了一种计算的语义&#34;&gt;容器表示了一种计算的语义&lt;/h3&gt;
-&lt;p&gt;这个陈述在我看来解答了为什么haskell需要存在容器这种东西。通过容器这个东西，可以很好实现&lt;code&gt;指称语义&lt;/code&gt;,一种不同于命令式语言的&lt;code&gt;操作语义&lt;/code&gt;的语义。
-举个例子： &lt;code&gt;Maybe&lt;/code&gt;这个容器就表示了一种结果可能不存在的计算的语义，&lt;code&gt;IO&lt;/code&gt;表示了一种顺序上的计算语义&lt;/p&gt;
+&lt;p&gt;这个陈述在我看来解答了为什么haskell需要存在容器这种东西。通过容器这个东西，可以很好实现&lt;code&gt;指称语义&lt;/code&gt;,一种不同于命令式语言的&lt;code&gt;操作语义&lt;/code&gt;的语义。&lt;/p&gt;
+&lt;p&gt;举个例子： &lt;code&gt;Maybe&lt;/code&gt;这个容器就表示了一种结果可能不存在的计算的语义，&lt;code&gt;IO&lt;/code&gt;表示了一种顺序上的计算语义&lt;/p&gt;
 &lt;h3 id=&#34;为什么抽象出functor&#34;&gt;为什么抽象出Functor&lt;/h3&gt;
-&lt;p&gt;我们都知道functor需要fmap, 它本质上就规定了一种&lt;strong&gt;不改变外部的容器，只改变内部数据&lt;/strong&gt;的操作(这里可以联想到&lt;code&gt;natural transformation&lt;/code&gt;, 一种改变外部容器，不改变内部值的操作)。正式由于这样的高阶的函数抽象，让我们可以在不修改不适配functor的函数前提下，依然可以使用functor提供的额外语义。当然fmap对于容器的语义需要手写。
-一种有意思的思考就是将fmap想象成map扩展，但是这样比喻有点爸爸像儿子的感觉。&lt;/p&gt;
+&lt;p&gt;我们都知道functor需要fmap, 它本质上就规定了一种&lt;strong&gt;不改变外部的容器，只改变内部数据&lt;/strong&gt;的操作(这里可以联想到&lt;code&gt;natural transformation&lt;/code&gt;, 一种改变外部容器，不改变内部值的操作)。正式由于这样的高阶的函数抽象，让我们可以在不修改不适配functor的函数前提下，依然可以使用functor提供的额外语义。当然fmap对于容器的语义需要手写。&lt;/p&gt;
+&lt;p&gt;一种有意思的思考就是将fmap想象成map扩展，但是这样比喻有点爸爸像儿子的感觉。&lt;/p&gt;
 &lt;h3 id=&#34;为什么抽象出了applicative&#34;&gt;为什么抽象出了applicative&lt;/h3&gt;
-&lt;p&gt;之前看过一本讲haskell的书说&lt;code&gt;applicative&lt;/code&gt;其实出现的时间要比&lt;code&gt;functor&lt;/code&gt;和&lt;code&gt;monad&lt;/code&gt;要晚，&lt;code&gt;applicative&lt;/code&gt;可以实现的功能，&lt;code&gt;monad&lt;/code&gt;都可以实现。它出现的原因在我看来可以有实现&lt;strong&gt;容器层面函数的currying&lt;/strong&gt;的原因。对于原来没有容器的函数来说，currying是显然的（从category theory的层面上来说存在一个adjunction）。但是如果我们使用fmap将一个函数变成了容器层面的函数的话，currying就不会显然满足了, 因为对于&lt;code&gt;f (a -&amp;gt; b -&amp;gt; c) -&amp;gt; f a&lt;/code&gt;来说，从functor层面，除非进行暴力拆容器，不然是没有一种方法可以便捷操作的。所以我们引入了&lt;code&gt;applicative&lt;/code&gt;来解决这个问题，将容器层面函数的currying进行了引入。 到这里，我们就可以想操作原来的函数一样操作容器层面的函数了，haskell中存在一种叫&lt;em&gt;自然升格&lt;/em&gt;的写法，就是模仿了原来函数的curry化过程。
-一般的函数的currying的写法&lt;code&gt;(((f a) b) c)&lt;/code&gt;
+&lt;p&gt;之前看过一本讲haskell的书说&lt;code&gt;applicative&lt;/code&gt;其实出现的时间要比&lt;code&gt;functor&lt;/code&gt;和&lt;code&gt;monad&lt;/code&gt;要晚，&lt;code&gt;applicative&lt;/code&gt;可以实现的功能，&lt;code&gt;monad&lt;/code&gt;都可以实现。它出现的原因在我看来可以有实现&lt;strong&gt;容器层面函数的currying&lt;/strong&gt;的原因。对于原来没有容器的函数来说，currying是显然的（从category theory的层面上来说存在一个adjunction）。但是如果我们使用fmap将一个函数变成了容器层面的函数的话，currying就不会显然满足了, 因为对于&lt;code&gt;f (a -&amp;gt; b -&amp;gt; c) -&amp;gt; f a&lt;/code&gt;来说，从functor层面，除非进行暴力拆容器，不然是没有一种方法可以便捷操作的。所以我们引入了&lt;code&gt;applicative&lt;/code&gt;来解决这个问题，将容器层面函数的currying进行了引入。 到这里，我们就可以想操作原来的函数一样操作容器层面的函数了，haskell中存在一种叫&lt;em&gt;自然升格&lt;/em&gt;的写法，就是模仿了原来函数的curry化过程。&lt;/p&gt;
+&lt;p&gt;一般的函数的currying的写法&lt;code&gt;(((f a) b) c)&lt;/code&gt;
 通过引入&lt;code&gt;applicative&lt;/code&gt;，我们使用自然升格的方式也可以达到这种currying的效果，具体例子&lt;code&gt;f &amp;lt;$&amp;gt; F a &amp;lt;*&amp;gt; F b &amp;lt;*&amp;gt; F c&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;为什么抽象出了monad&#34;&gt;为什么抽象出了monad&lt;/h3&gt;
 &lt;p&gt;在&lt;em&gt;Real World Haskell&lt;/em&gt;将&lt;code&gt;monad&lt;/code&gt;描述成了一种实现副作用的手段，这是传统的&lt;code&gt;操作语义&lt;/code&gt; 和 &lt;code&gt;指称语义&lt;/code&gt;的区别，&lt;code&gt;操作语义&lt;/code&gt;对于副作用的宽容程度要比&lt;code&gt;指称语义&lt;/code&gt;高，其内部可能会包括副作用，但是&lt;code&gt;指称语义&lt;/code&gt;希望将副作用包含在容器上，而不是函数中，通过这样的方法，可以很好将pure这种性质保留下去，为了将副作用包含了容器上，我们抽象出了&lt;code&gt;monad&lt;/code&gt;这个容器，&lt;code&gt;monad&lt;/code&gt;存在多种定义方法，但是我认为，使用&lt;code&gt;(&amp;gt;&amp;gt;=) :: m a -&amp;gt; (a -&amp;gt; m b) -&amp;gt; m b&lt;/code&gt;定义的monad从本质上体现了这种思想，当我们将&lt;code&gt;m a&lt;/code&gt;给应用到&lt;code&gt;a -&amp;gt; m b&lt;/code&gt;这函数的过程中，我们就需要完成副作用的操作，而不是在&lt;code&gt;a -&amp;gt; m b&lt;/code&gt;这个函数内部实现副作用。&lt;/p&gt;
 - https://csyjoy.github.io/post/functor_applicative_monad/ - </description>
-        </item>
-    
-    
-    
-        <item>
-        <title>HelloWorld</title>
-        <link>https://csyjoy.github.io/post/helloworld/</link>
-        <pubDate>Fri, 15 Jul 2022 21:45:16 +0800</pubDate>
-        
-        <guid>https://csyjoy.github.io/post/helloworld/</guid>
-        <description>My New Hugo Site https://csyjoy.github.io/post/helloworld/ -&lt;h1 id=&#34;helloworld&#34;&gt;HelloWorld&lt;/h1&gt;
-&lt;p&gt;this is blogs of csy&lt;/p&gt;
-- https://csyjoy.github.io/post/helloworld/ - </description>
         </item>
     
     
